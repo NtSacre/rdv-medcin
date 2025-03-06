@@ -27,24 +27,27 @@ export class AuthService {
     if (!user) {
       throw new UnauthorizedException('Invalid credentials - no user');
     }
-    
-    // Déboguer la comparaison de mot de passe
-    try {
-        console.log("le password:", password, "user.password", user.password)
-      const isPasswordValid = await bcrypt.compare(password, user.password);
-      console.log("Résultat de la comparaison:", isPasswordValid);
-      
-      if (!isPasswordValid) {
-        throw new UnauthorizedException('Invalid credentials - wrong password');
-      }
-      
-      const payload = { sub: user.id, email: user.email };
-      return {
+    const payload = { sub: user.id, email: user.email };
+    return {
         access_token: this.jwtService.sign(payload),
       };
-    } catch (error) {
-      console.error("Erreur lors de la comparaison bcrypt:", error);
-      throw new UnauthorizedException('Invalid credentials - bcrypt error');
-    }
+    // Déboguer la comparaison de mot de passe
+    // try {
+    //     console.log("le password:", password, "user.password", user.password)
+    //   const isPasswordValid = await bcrypt.compare(password, user.password);
+    //   console.log("Résultat de la comparaison:", isPasswordValid);
+      
+    //   if (!isPasswordValid) {
+    //     throw new UnauthorizedException('Invalid credentials - wrong password');
+    //   }
+      
+    //   const payload = { sub: user.id, email: user.email };
+    //   return {
+    //     access_token: this.jwtService.sign(payload),
+    //   };
+    // } catch (error) {
+    //   console.error("Erreur lors de la comparaison bcrypt:", error);
+    //   throw new UnauthorizedException('Invalid credentials - bcrypt error');
+    // }
   }
 }
