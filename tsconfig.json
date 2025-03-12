@@ -2,6 +2,11 @@
   "compilerOptions": {
     "module": "commonjs",
     "declaration": true,
+    "types": ["jest", "node"], // Ajoutez "node" ici
+    "rootDir": "./src",
+    "strict": true,
+    "esModuleInterop": true,
+    "skipLibCheck": true,
     "removeComments": true,
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
@@ -11,11 +16,12 @@
     "outDir": "./dist",
     "baseUrl": "./",
     "incremental": true,
-    "skipLibCheck": true,
     "strictNullChecks": true,
     "forceConsistentCasingInFileNames": true,
     "noImplicitAny": false,
     "strictBindCallApply": false,
     "noFallthroughCasesInSwitch": false
-  }
+  },
+  "include": ["src/**/*"], // Ajoutez cette ligne
+  "exclude": ["node_modules", "dist"] // Ajoutez cette ligne
 }

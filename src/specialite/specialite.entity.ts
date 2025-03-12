@@ -4,11 +4,11 @@ import { InfoMedecin } from '../info_medecins/infomedecin.entity';
 @Entity()
 export class Specialite {
   @PrimaryGeneratedColumn()
-  id: number;
+  id!: number;
 
   @Column({ unique: true })
-  nom: string;
+  nom!: string;
 
-  @OneToMany(() => InfoMedecin, infoMedecin => infoMedecin.specialite)
-  infoMedecins: InfoMedecin[];
+  @Column()
+  infoMedecins!: InfoMedecin[]; // Utilisation de "!"
 }
