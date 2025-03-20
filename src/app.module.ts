@@ -10,6 +10,7 @@ import { SpecialiteModule } from './specialite/specialite.module';
 import { PlanningsModule } from './plannings/plannings.module';
 import { ConsultationModule } from './consultations/consultations.module';
 import { AuthModule } from './auth/auth.module';
+import { GuardsModule } from './guards/guards.module';
 
 @Module({
   imports: [
@@ -30,7 +31,9 @@ import { AuthModule } from './auth/auth.module';
     SpecialiteModule, 
     PlanningsModule, 
     ConsultationModule, 
-    AuthModule
+    AuthModule, 
+    //GuardsModule
+
   ],
   controllers: [AppController],
   providers: [AppService],

@@ -21,9 +21,9 @@
     "seed": "ts-node -r tsconfig-paths/register seedRoleAndAdmin.ts"
   },
   "dependencies": {
-    "@nestjs/common": "^11.0.1",
+    "@nestjs/common": "^11.0.11",
     "@nestjs/config": "^4.0.1",
-    "@nestjs/core": "^11.0.1",
+    "@nestjs/core": "^11.0.11",
     "@nestjs/jwt": "^11.0.0",
     "@nestjs/passport": "^11.0.5",
     "@nestjs/platform-express": "^11.0.1",
@@ -32,6 +32,7 @@
     "bcryptjs": "^3.0.2",
     "class-transformer": "^0.5.1",
     "class-validator": "^0.14.1",
+    "dayjs": "^1.11.13",
     "dotenv": "^16.4.7",
     "mysql2": "^3.13.0",
     "passport": "^0.7.0",

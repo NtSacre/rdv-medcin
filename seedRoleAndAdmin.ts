@@ -1,9 +1,10 @@
 import { NestFactory } from '@nestjs/core';
 
 import * as bcrypt from 'bcrypt';
-import { AppModule } from 'src/app.module';
-import { RolesService } from 'src/roles/roles.service';
-import { UsersService } from 'src/users/users.service';
+import { hash } from 'bcryptjs';
+import { AppModule } from './src/app.module';
+import { RolesService } from './src/roles/roles.service';
+import { UsersService } from './src/users/users.service';
 
 async function bootstrap() {
   // Crée le contexte de l'application Nest sans lancer le serveur HTTP
@@ -32,14 +33,15 @@ async function bootstrap() {
   }
 
   // Exemple de création d'un utilisateur admin
-  const adminEmail = 'admin@exemple.com';
+  const adminEmail = 'admin1@admin.com';
   const existingAdmin = await userService.findByEmail(adminEmail);
   if (!existingAdmin) {
     // Récupère le rôle admin (on suppose qu'il a été créé et qu'il est le premier, id = 1)
    // const adminRole = await roleService.findByLibelle('admin');
-    const hashedPassword = await bcrypt.hash('adminPassword', 10);
-    const adminUser = await userService.createUser({"email" : adminEmail, "nom" :'Admin', "password": hashedPassword, "roleId": 1});
-    console.log(`Utilisateur admin créé : ${adminUser.email}`);
+    //const hashedPassword = await hash('adminPassword', 10);
+
+    const adminUser = await userService.createUser({"email" : adminEmail, "nom" :'Admin', "password": 'adminPassword', "roleId": 1});
+    console.log(`Utilisateur admin créé : ${adminUser.email}\n password : ${adminUser.password} `);
   } else {
     console.log(`Utilisateur admin (${adminEmail}) existe déjà.`);
   }

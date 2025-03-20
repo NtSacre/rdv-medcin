@@ -7,9 +7,10 @@ export class InfoMedecin {
   @PrimaryGeneratedColumn()
   id: number;
 
-  // Relation one-to-one avec User (seul un utilisateur avec le rôle "médecin" aura ces infos)
-  @OneToOne(() => User)
-  @JoinColumn()
+ 
+  // Relation One-to-One avec User (la clé étrangère userId sera ici)
+  @OneToOne(() => User, user => user.infoMedecin)
+  @JoinColumn() // Ici, on spécifie que userId est la clé étrangère
   user: User;
 
   @Column({ nullable: true })
