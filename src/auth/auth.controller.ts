@@ -25,11 +25,11 @@ export class AuthController {
     return this.authService.login(loginCredentials);
   }
   @Post('logout')
-  //@UseGuards(JwtAuthGuard) // Protection avec JWT
+  @UseGuards(JwtAuthGuard) // Protection avec JWT
   async logout(@Req() req) {
     const token = req.headers.authorization?.split(' ')[1]; // Extraire le token
     if (!token) return { message: 'Aucun token trouvé' };
-console.log("le req.user: ", req.user)
+//console.log("le req.user: ", req.user)
     return this.authService.logout(req.user.id, token);
   }
 

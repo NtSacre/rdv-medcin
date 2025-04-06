@@ -1,10 +1,11 @@
-import { IsEnum, IsNotEmpty, IsNumber, IsDate, IsOptional } from 'class-validator';
+import { IsEnum, IsNotEmpty, IsNumber, IsDate, IsOptional, IsString } from 'class-validator';
 import { MotifConsultation, StatutConsultation } from '../consultation.entity';
+
 
 export class CreateConsultationDto {
   @IsNotEmpty()
-  @IsDate()
-  dateHeure: Date;
+  @IsString()
+  dateHeure: string;
 
   @IsOptional()
   @IsEnum(MotifConsultation)

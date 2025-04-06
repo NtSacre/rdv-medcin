@@ -34,15 +34,13 @@ export class Consultation {
   @Column({
     type: 'enum',
     enum: MotifConsultation,
-    default: MotifConsultation.PREMIERE_VISITE
+    default: MotifConsultation.PREMIERE_VISITE,
   })
   motif: MotifConsultation;
 
-  // Relation avec le patient
-  @ManyToOne(() => User, user => user.id)
+  @ManyToOne(() => User, (user) => user.consultationsAsPatient)
   patient: User;
 
-  // Relation avec le planning (au lieu du médecin directement)
-  @ManyToOne(() => Planning, planning => planning.id)
+  @ManyToOne(() => Planning, (planning) => planning.consultations)
   planning: Planning;
 }

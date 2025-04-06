@@ -41,9 +41,11 @@ export class InfoMedecinsService {
   async findByUserId(userId: number) {
     return await this.infoMedecinRepository.findOne({
       where: { user: { id: userId } },
-      relations: ['user', 'specialite'],
+      relations: ['user'],
     });
   }
+
+
 
   // ✅ Récupérer un médecin à partir de son numéro RPPS
   async findByNumeroRPPS(numeroRPPS: string) {

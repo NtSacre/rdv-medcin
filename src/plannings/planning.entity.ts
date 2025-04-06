@@ -1,5 +1,6 @@
-import { Entity, PrimaryGeneratedColumn, Column, ManyToOne } from 'typeorm';
-import { InfoMedecin } from '../info_medecins/infomedecin.entity';
+import { Entity, PrimaryGeneratedColumn, Column, ManyToOne, OneToMany } from 'typeorm';
+import { User } from '../users/user.entity';
+import { Consultation } from '../consultations/consultation.entity';
 
 export enum JourSemaine {
   LUNDI = 'Lundi',
@@ -28,6 +29,9 @@ export class Planning {
   @Column('time')
   heureFin: string;
 
-  @ManyToOne(() => InfoMedecin, infoMedecin => infoMedecin.id)
-  medecin: InfoMedecin;
+  @ManyToOne(() => User, (user) => user.plannings)
+  medecin: User;
+
+  @OneToMany(() => Consultation, (consultation) => consultation.planning)
+  consultations: Consultation[];
 }

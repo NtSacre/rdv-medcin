@@ -104,7 +104,7 @@ export class AuthService {
     }
     
     // Génération du token si l'authentification réussit
-    const payload = { sub: user.id, email: user.email, role: user?.role.libelle };
+    const payload = { sub: user.id, nom: user.nom, email: user.email, role: user?.role.libelle };
     return {
       access_token: this.jwtService.sign(payload),
     };

@@ -108,7 +108,7 @@ export class UsersService {
     
       // Récupérer tous les médecins paginés
       const [medecins, total] = await this.userRepository.findAndCount({
-        where: { role: { id: 2 } },
+        where: { role: { id: 2 } }, // Supposant que 2 est l'ID du rôle "médecin"
         relations: ['infoMedecin', 'infoMedecin.specialite'],
         skip,
         take,
@@ -120,10 +120,8 @@ export class UsersService {
       // Associer les plannings aux médecins et filtrer ceux sans planning
       const medecinsWithPlanning = medecins
         .map((medecin) => {
-          if (!medecin.infoMedecin) return null;
-    
           const planning = plannings
-            .filter((p) => p.medecin?.id === medecin.infoMedecin.id)
+            .filter((p) => p.medecin?.id === medecin.id) // Changement ici : comparaison avec User.id
             .map((p) => ({
               id: p.id,
               jour: p.jour,
@@ -147,14 +145,10 @@ export class UsersService {
       // Retourner les données paginées
       return {
         data: medecinsWithPlanning,
-        total : medecinsWithPlanning.length,
+        total: medecinsWithPlanning.length,
         page,
         limit,
         totalPages: Math.ceil(total / limit),
       };
     }
-    
-    
-    
-  
 }

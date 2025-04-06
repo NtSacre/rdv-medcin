@@ -1,8 +1,9 @@
-import { Controller, Get, Post, Body, Param, Delete, Put, Patch } from '@nestjs/common';
+import { Controller, Get, Post, Body, Param, Delete, Put, Patch, Query } from '@nestjs/common';
 import { ConsultationsService } from './consultations.service';
 //import { CreateConsultationDto, UpdateConsultationDto, StatutConsultationDto } from './dto/consultation.dto';
 import { MotifConsultation } from './consultation.entity';
 import { CreateConsultationDto, UpdateConsultationDto } from './dto/consultation.dto';
+
 
 @Controller('consultations')
 export class ConsultationsController {
@@ -20,7 +21,18 @@ export class ConsultationsController {
 
   @Get('medecin/:medecinId')
   findByMedecin(@Param('medecinId') medecinId: number) {
+    console.log('il passe ici ')
     return this.consultationsService.findByMedecin(medecinId);
+  }
+
+  @Get('medecin/stats/:medecinId')
+  getMedecinStatistiques(@Param('medecinId') medecinId: number) : any {
+    return this.consultationsService.getMedecinStatistiques(medecinId);
+  }
+
+  @Get('patient/stats/:patientId')
+  getPatientStatistiques(@Param('patientId') patientId: number) : any {
+    return this.consultationsService.getPatientStatistiques(patientId);
   }
 
   @Get(':id')
@@ -39,14 +51,31 @@ export class ConsultationsController {
   }
 
   // Accepter une consultation
-  @Patch(':id/accepter')
+  @Put(':id/confirmer')
   accepterConsultation(@Param('id') id: number) {
     return this.consultationsService.accepterConsultation(id);
   }
 
   // Refuser une consultation avec motif
-  @Patch(':id/refuser')
+  @Put(':id/refuser')
   refuserConsultation(@Param('id') id: number, @Body('motif') motif: MotifConsultation) {
     return this.consultationsService.refuserConsultation(id, motif);
+  }
+  @Get('medecins/:medecinId')
+  async getMedecinConsultations(
+    @Param('medecinId') medecinId: number
+  ) {
+   
+
+    return this.consultationsService.MedecinConsultations(medecinId);
+  }
+
+  @Get('patients/:patientId')
+  async PatientConsultations(
+    @Param('patientId') patientId: number
+  ) {
+   
+
+    return this.consultationsService.PatientConsultations(patientId);
   }
 }

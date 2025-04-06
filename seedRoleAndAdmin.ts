@@ -41,7 +41,7 @@ async function bootstrap() {
     //const hashedPassword = await hash('adminPassword', 10);
 
     const adminUser = await userService.createUser({"email" : adminEmail, "nom" :'Admin', "password": 'adminPassword', "roleId": 1});
-    console.log(`Utilisateur admin créé : ${adminUser.email}\n password : ${adminUser.password} `);
+    console.log(`Utilisateur admin créé : ${adminUser.email}} `);
   } else {
     console.log(`Utilisateur admin (${adminEmail}) existe déjà.`);
   }

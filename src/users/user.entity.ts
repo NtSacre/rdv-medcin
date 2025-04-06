@@ -1,6 +1,8 @@
-import { Entity, PrimaryGeneratedColumn, Column, ManyToOne, OneToOne, JoinColumn } from 'typeorm';
+import { Entity, PrimaryGeneratedColumn, Column, ManyToOne, OneToOne, OneToMany } from 'typeorm';
 import { Role } from '../roles/role.entity';
-import { InfoMedecin } from 'src/info_medecins/infomedecin.entity';
+import { InfoMedecin } from '../info_medecins/infomedecin.entity';
+import { Planning } from '../plannings/planning.entity';
+import { Consultation } from '../consultations/consultation.entity';
 
 @Entity()
 export class User {
@@ -14,13 +16,17 @@ export class User {
   nom: string;
 
   @Column()
- password: string;
+  password: string;
 
-  // Relation avec la table Role
-  @ManyToOne(() => Role, role => role.users)
+  @ManyToOne(() => Role, (role) => role.users)
   role: Role;
 
-    // Relation OneToOne avec InfoMedecin (un médecin peut avoir des infos spécifiques)
-    @OneToOne(() => InfoMedecin, infoMedecin => infoMedecin.user)
-    infoMedecin: InfoMedecin;
+  @OneToOne(() => InfoMedecin, (infoMedecin) => infoMedecin.user)
+  infoMedecin: InfoMedecin;
+
+  @OneToMany(() => Planning, (planning) => planning.medecin)
+  plannings: Planning[];
+
+  @OneToMany(() => Consultation, (consultation) => consultation.patient)
+  consultationsAsPatient: Consultation[];
 }
