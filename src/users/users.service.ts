@@ -151,4 +151,23 @@ export class UsersService {
         totalPages: Math.ceil(total / limit),
       };
     }
+
+    async getUserStats(): Promise<{ medecins: number; patients: number; admins: number }> {
+      console.log("il arrive ici");
+      const stats = await this.userRepository
+        .createQueryBuilder('user')
+        .select('role.libelle as roleName, COUNT(*) as count')
+        .innerJoin('user.role', 'role')
+        .groupBy('role.libelle')
+        .getRawMany();
+    
+      const result = { medecins: 0, patients: 0, admins: 0 };
+      stats.forEach((stat) => {
+        if (stat.roleName === 'medecin') result.medecins = parseInt(stat.count);
+        if (stat.roleName === 'patient') result.patients = parseInt(stat.count);
+        if (stat.roleName === 'admin') result.admins = parseInt(stat.count);
+      });
+    
+      return result;
+    }
 }

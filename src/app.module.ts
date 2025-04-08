@@ -11,6 +11,7 @@ import { PlanningsModule } from './plannings/plannings.module';
 import { ConsultationModule } from './consultations/consultations.module';
 import { AuthModule } from './auth/auth.module';
 import { GuardsModule } from './guards/guards.module';
+import { EmailModule } from './email/email.module';
 
 @Module({
   imports: [
@@ -31,7 +32,7 @@ import { GuardsModule } from './guards/guards.module';
     SpecialiteModule, 
     PlanningsModule, 
     ConsultationModule, 
-    AuthModule, 
+    AuthModule, EmailModule, 
     //GuardsModule
 
   ],

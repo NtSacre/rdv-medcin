@@ -11,6 +11,7 @@ import { SpecialiteService } from 'src/specialite/specialite.service';
 import { InfoMedecinsService } from 'src/info_medecins/info_medecins.service';
 import { plainToInstance } from 'class-transformer';
 import { MedecinResponseDTO } from './dto/MedecinrResponse.dto';
+import { UpdateProfileDto } from './dto/updateProfile.dto';
 
 
 @Injectable()
@@ -117,5 +118,66 @@ export class AuthService {
   
   isTokenBlacklisted(token: string): boolean {
     return this.blacklistedTokens.has(token);
+  }
+
+  async updateProfile(userId: number, updateProfileDto: UpdateProfileDto): Promise<any> {
+    const { nom, email, password, numeroRPPS, specialiteId, cabinet } = updateProfileDto;
+
+    // Récupérer l'utilisateur avec ses informations
+    const user = await this.usersService.findOneWithMedecinInfo(userId);
+    if (!user) {
+      throw new NotFoundException(`Utilisateur avec l'ID ${userId} introuvable.`);
+    }
+
+    // Mettre à jour les champs de base de l'utilisateur
+    const updatedUserData: Partial<CreateUserDto> = {};
+    if (nom) updatedUserData.nom = nom;
+    if (email) updatedUserData.email = email;
+    if (password) updatedUserData.password = await bcrypt.hash(password, 10); // Hacher le nouveau mot de passe
+
+    if (Object.keys(updatedUserData).length > 0) {
+      await this.usersService.updateUser(userId, updatedUserData);
+    }
+
+    // Si l'utilisateur est un médecin, mettre à jour InfoMedecin
+    if (user.role.libelle === 'medecin' && (numeroRPPS || specialiteId || cabinet)) {
+      if (specialiteId) {
+        const specialite = await this.specialiteService.findOne(specialiteId);
+        if (!specialite) {
+          throw new NotFoundException(`Spécialité avec l'ID ${specialiteId} introuvable.`);
+        }
+      }
+
+      const updatedInfoMedecin = {
+        numeroRPPS: numeroRPPS || user.infoMedecin?.numeroRPPS,
+        specialiteId: specialiteId || user.infoMedecin?.specialite?.id,
+        cabinet: cabinet || user.infoMedecin?.cabinet,
+      };
+
+      await this.infoMedecinService.updateInfoMedecin(userId, updatedInfoMedecin);
+    }
+
+    // Récupérer les données mises à jour
+    const updatedUser = await this.usersService.findOneWithMedecinInfo(userId);
+
+    // Retourner les données selon le rôle
+    if (updatedUser?.role.libelle === 'medecin') {
+      return plainToInstance(MedecinResponseDTO, {
+        id: updatedUser.id,
+        nom: updatedUser.nom,
+        email: updatedUser.email,
+        role: updatedUser.role.libelle,
+        numeroRPPS: updatedUser.infoMedecin?.numeroRPPS || null,
+        cabinet: updatedUser.infoMedecin?.cabinet || null,
+        specialite: updatedUser.infoMedecin?.specialite?.nom || null,
+      });
+    }
+
+    return {
+      id: updatedUser?.id,
+      nom: updatedUser?.nom,
+      email: updatedUser?.email,
+      role: updatedUser?.role.libelle,
+    };
   }
 }

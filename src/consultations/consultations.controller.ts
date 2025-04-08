@@ -19,6 +19,37 @@ export class ConsultationsController {
     return this.consultationsService.findAll();
   }
 
+  @Get('consultation-stats')
+  async getConsultationStats() {
+    console.log('Appel à getConsultationStats');
+    return this.consultationsService.getAdminConsultationStats();
+  }
+
+  @Get('top-medecins')
+  async getTopMedecins() {
+    console.log('Appel à getTopMedecins');
+    return this.consultationsService.getTopMedecins();
+  }
+  @Get('consultation-motifs-stats')
+  async getConsultationMotifsStats() {
+    return this.consultationsService.getConsultationMotifsStats();
+  }
+
+  @Get('consultation-by-day-of-week')
+  async getConsultationByDayOfWeek() {
+    return this.consultationsService.getConsultationByDayOfWeek();
+  }
+
+  @Get('urgence-stats')
+  async getUrgenceStats() {
+    return this.consultationsService.getUrgenceStats();
+  }
+
+  @Get('top-patients')
+  async getTopPatients() {
+    return this.consultationsService.getTopPatients();
+  }
+
   @Get('medecin/:medecinId')
   findByMedecin(@Param('medecinId') medecinId: number) {
     console.log('il passe ici ')
