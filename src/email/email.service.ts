@@ -11,8 +11,8 @@ export class EmailService {
       port: 587,
       secure: false, // true pour 465, false pour autres ports
       auth: {
-        user: 'sacrentandou2.0@gmail.com', // Votre email
-        pass: 'jjvdldtuhnfhbcho', // Mot de passe d'application
+        user: 'your-email', // Votre email
+        pass: 'yourpassword', // Mot de passe d'application
       },
     });
   }
